@@ -13,7 +13,7 @@ env:
     value: userelm-381a3      # only needed if ADC doesn't pick it up
 
   - variable: NEXT_PUBLIC_APP_URL
-    value: https://your-app.web.app   # update after first deploy
+    value: https://userelm.com
 
   - variable: TURNSTILE_SECRET_KEY
     secret: TURNSTILE_SECRET_KEY
