@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand */
+  --color-primary: oklch(58% 0.22 286);
+  --color-primary-foreground: oklch(99% 0.005 286);
+  --color-primary-soft: oklch(96% 0.04 286);
+  --color-accent: oklch(72% 0.18 165);          /* mint — secondary accent for highlights */
+  --color-accent-soft: oklch(96% 0.04 165);
+
+  /* Surface */
+  --color-background: oklch(99% 0.003 286);
+  --color-foreground: oklch(14% 0.015 286);
+  --color-muted: oklch(96.5% 0.006 286);
+  --color-muted-foreground: oklch(46% 0.02 286);
+  --color-border: oklch(90% 0.01 286);
+  --color-card: oklch(100% 0 0);
+  --color-card-foreground: oklch(14% 0.015 286);
+
+  /* Dark sidebar surface */
+  --color-sidebar: oklch(20% 0.025 286);
+  --color-sidebar-foreground: oklch(92% 0.01 286);
+  --color-sidebar-muted: oklch(72% 0.015 286);
+  --color-sidebar-border: oklch(30% 0.02 286);
+  --color-sidebar-hover: oklch(30% 0.04 286);
+
+  /* Semantic */
+  --color-destructive: oklch(56% 0.22 25);
+  --color-success: oklch(62% 0.16 145);
+  --color-warning: oklch(72% 0.16 75);
+  --color-info: oklch(60% 0.16 230);
+
+  --radius: 0.75rem;
+
+  --font-sans: "Geist", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-display: "Geist", "Inter Display", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    /* Subtle ambient gradient hint */
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, color-mix(in oklch, var(--color-primary) 5%, transparent), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 0%, color-mix(in oklch, var(--color-accent) 4%, transparent), transparent);
+    background-attachment: fixed;
+  }
+  * { border-color: var(--color-border); }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.015em; }
+}
+
+/* Subtle scrollbars */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-muted-foreground); }
+
+/* Gradient accent utilities */
+.grad-primary {
+  background-image: linear-gradient(135deg, var(--color-primary), color-mix(in oklch, var(--color-primary) 60%, var(--color-accent)));
+}
+.text-grad {
+  background-image: linear-gradient(135deg, var(--color-primary), color-mix(in oklch, var(--color-primary) 50%, var(--color-accent)));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Ring glow used for cards/badges */
+.glow-primary { box-shadow: 0 0 0 1px color-mix(in oklch, var(--color-primary) 30%, transparent), 0 8px 24px -8px color-mix(in oklch, var(--color-primary) 25%, transparent); }
+
+/* Animations */
+@keyframes blink { 0%, 80%, 100% { opacity: 0.2 } 40% { opacity: 1 } }
+.typing-dot { animation: blink 1.2s infinite both; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }

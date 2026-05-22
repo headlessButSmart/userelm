@@ -1,0 +1,12 @@
+{
+  "name": "p2p-crm",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "dev:signaling": "pnpm --filter signaling dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint"
+  },
+  "packageManager": "pnpm@11.1.3"
+}
