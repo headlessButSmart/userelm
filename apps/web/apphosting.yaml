@@ -1,0 +1,31 @@
+# apphosting.yaml
+runConfig:
+  runtime: nodejs20
+
+env:
+  - variable: JWT_SECRET
+    secret: JWT_SECRET          # stored in Secret Manager (step 5)
+
+  - variable: JWT_ISSUER
+    value: p2p-crm
+
+  - variable: FIREBASE_PROJECT_ID
+    value: userelm-381a3      # only needed if ADC doesn't pick it up
+
+  - variable: NEXT_PUBLIC_APP_URL
+    value: https://your-app.web.app   # update after first deploy
+
+  - variable: TURNSTILE_SECRET_KEY
+    secret: TURNSTILE_SECRET_KEY
+
+  - variable: NEXT_PUBLIC_TURNSTILE_SITE_KEY
+    value: 0x4AAAAAADUWks4QQm2GCamD
+
+  - variable: TURN_URL
+    value: turn:free.expressturn.com:3478
+
+  - variable: TURN_USERNAME
+    value: "000000002094633898"
+
+  - variable: TURN_PASSWORD
+    secret: TURN_PASSWORD

@@ -7,4 +7,4 @@ dist
 .turbo
 .claude
 .firebaserc
-apphosting.yaml
+firebase-debug.log
