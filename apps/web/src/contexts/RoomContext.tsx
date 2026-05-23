@@ -66,8 +66,8 @@ export function RoomProvider({
 
     const token = sessionStorage.getItem(`room-token:${roomId}`)
     const iceRaw = sessionStorage.getItem(`room-ice:${roomId}`)
-    const signalingUrl =
-      process.env['NEXT_PUBLIC_SIGNALING_URL'] ?? 'ws://localhost:4444'
+    // undefined → y-webrtc falls back to its built-in public signaling servers
+    const signalingUrl = process.env['NEXT_PUBLIC_SIGNALING_URL'] || undefined
 
     // Extract the shared room key from the stored join URL — this is the WebRTC encryption password.
     // All members know it (they used it to join), so it's safe to use as a shared symmetric key.
@@ -80,6 +80,7 @@ export function RoomProvider({
       setConnectionState('connecting')
       const iceServers = JSON.parse(iceRaw) as RTCIceServer[]
 
+      console.debug('[RoomContext] networked mode', { roomId, iceServers, signalingUrl })
       connectToRoom({ roomId, token, password, signalingUrl, iceServers, identity })
         .then((conn) => {
           if (destroyed) { conn.destroy(); return }

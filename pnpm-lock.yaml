@@ -8,6 +8,12 @@ importers:
 
   .: {}
 
+  apps/signaling:
+    dependencies:
+      ws:
+        specifier: ^8.18.0
+        version: 8.20.1
+
   apps/web:
     dependencies:
       '@dnd-kit/core':
@@ -4927,8 +4933,7 @@ snapshots:
   wrappy@1.0.2:
     optional: true
 
-  ws@8.20.1:
-    optional: true
+  ws@8.20.1: {}
 
   xlsx@0.18.5:
     dependencies:

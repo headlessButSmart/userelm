@@ -15,6 +15,9 @@ env:
   - variable: NEXT_PUBLIC_APP_URL
     value: https://userelm.com
 
+  - variable: NEXT_PUBLIC_SIGNALING_URL
+    value: wss://REPLACE_WITH_SIGNALING_BACKEND_URL
+
   - variable: TURNSTILE_SECRET_KEY
     secret: TURNSTILE_SECRET_KEY
 
@@ -22,10 +25,10 @@ env:
     value: 0x4AAAAAADUWks4QQm2GCamD
 
   - variable: TURN_URL
-    value: turn:free.expressturn.com:3478
+    value: turns:global.relay.metered.ca:443?transport=tcp
 
   - variable: TURN_USERNAME
-    value: "000000002094633898"
+    secret: TURN_USERNAME
 
   - variable: TURN_PASSWORD
     secret: TURN_PASSWORD

@@ -1,0 +1,7 @@
+runConfig:
+  runtime: nodejs20
+  runCommand: node server.js
+  # Signaling state is in-memory — single instance required so all peers
+  # share the same topic map. If you need HA later, move topics to Redis.
+  minInstances: 1
+  maxInstances: 1
