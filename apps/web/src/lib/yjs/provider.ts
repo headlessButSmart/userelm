@@ -28,7 +28,10 @@ export async function connectToRoom(opts: {
     signaling: [`${opts.signalingUrl}?token=${encodeURIComponent(opts.token)}`],
     password: opts.password,
     peerOpts: {
-      config: { iceServers: opts.iceServers },
+      config: {
+        iceServers: opts.iceServers,
+        iceTransportPolicy: 'relay',  // TURN-only: no local network scan, no permission prompt
+      },
     },
   })
 
