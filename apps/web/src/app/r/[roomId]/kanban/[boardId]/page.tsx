@@ -511,7 +511,7 @@ function assigneeColor(email: string): string {
 }
 
 function AssigneeChip({ email }: { email: string }) {
-  const initials = email.split('@')[0].slice(0, 2).toUpperCase()
+  const initials = (email.split('@')[0] ?? email).slice(0, 2).toUpperCase()
   return (
     <span
       title={email}

@@ -28,7 +28,7 @@ import {
   type TicketPriority,
   type TicketRow,
 } from '@p2p-crm/platform'
-import { TicketDialog } from '../page'
+import { TicketDialog } from '../TicketDialog'
 import { TopBar } from '@/components/crm/TopBar'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'

@@ -14,7 +14,7 @@ import {
 
 function tsToDate(ms: number): string {
   if (!ms) return ''
-  return new Date(ms).toISOString().split('T')[0]
+  return new Date(ms).toISOString().split('T')[0] ?? ''
 }
 
 function centsToAmount(cents: number): number {
