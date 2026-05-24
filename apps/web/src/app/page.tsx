@@ -2,7 +2,7 @@ import Link from 'next/link'
 import {
   ArrowRight, Database, Lock, Heart, Wifi, FileDown, Users, Check, Github,
   Briefcase, Wallet, UserCheck, Trello, LifeBuoy,
-  MessageCircle, Sparkles,
+  MessageCircle, Sparkles, HardDrive, RefreshCw, GitMerge, AlertTriangle,
 } from 'lucide-react'
 import { ElmLogo } from '@/components/ElmLogo'
 
@@ -79,6 +79,7 @@ export default function HomePage() {
             <a href="#features" className="hover:text-foreground transition-colors">Why P2P</a>
             <a href="#how"      className="hover:text-foreground transition-colors">How it works</a>
             <a href="#trust"    className="hover:text-foreground transition-colors">Trust</a>
+            <a href="#data"     className="hover:text-foreground transition-colors">Data safety</a>
             <a href="#faq"      className="hover:text-foreground transition-colors">FAQ</a>
           </nav>
           <Link
@@ -496,6 +497,102 @@ export default function HomePage() {
 }`}</pre>
               <div className="text-muted-foreground mt-3">// That&apos;s the whole story.</div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Data safety */}
+      <section id="data" className="container mx-auto max-w-6xl px-6 py-20">
+        <h2 className="text-3xl font-bold tracking-tight text-center mb-3">How your data is stored &amp; stays safe</h2>
+        <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-14">
+          A plain-English explanation of exactly where your data lives, how it survives device failures,
+          and the one scenario that can cause permanent loss.
+        </p>
+
+        {/* Three-layer diagram */}
+        <div className="grid md:grid-cols-3 gap-6 mb-14">
+          {[
+            {
+              icon: HardDrive,
+              title: 'Persisted in IndexedDB',
+              accent: 'oklch(60% 0.18 250)',
+              body: 'Every write is immediately saved to your browser\'s IndexedDB — the same storage used by offline-capable apps. Your data survives page refreshes, tab closes, and full browser restarts automatically.',
+              detail: 'Powered by y-indexeddb',
+            },
+            {
+              icon: RefreshCw,
+              title: 'Synced peer-to-peer',
+              accent: 'oklch(64% 0.16 145)',
+              body: 'When teammates are online in the same workspace, every change propagates over direct WebRTC connections. Each browser that has been in the workspace holds a complete, independent copy of all data.',
+              detail: 'Powered by y-webrtc + Yjs',
+            },
+            {
+              icon: GitMerge,
+              title: 'Merged without conflicts',
+              accent: 'oklch(60% 0.16 30)',
+              body: 'Data is structured as a CRDT (Conflict-free Replicated Data Type). Two people editing simultaneously never corrupt each other\'s work — changes are always merged deterministically.',
+              detail: 'Yjs CRDT algorithm',
+            },
+          ].map((card) => (
+            <div key={card.title} className="rounded-xl border border-[--color-border] p-6 bg-card">
+              <div className="inline-flex p-2.5 rounded-lg mb-4" style={{ background: `${card.accent}20`, color: card.accent }}>
+                <card.icon className="h-5 w-5" />
+              </div>
+              <h3 className="font-semibold mb-2">{card.title}</h3>
+              <p className="text-sm text-muted-foreground mb-3">{card.body}</p>
+              <span className="inline-block text-[10px] font-mono text-muted-foreground border border-[--color-border] rounded px-2 py-0.5">
+                {card.detail}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Redundancy explainer */}
+        <div className="rounded-xl border border-[--color-border] bg-card p-8 mb-6">
+          <h3 className="font-semibold text-lg mb-4">Redundancy: every browser is a replica</h3>
+          <p className="text-sm text-muted-foreground mb-6">
+            Because every member who has opened the workspace holds the full dataset locally, your workspace
+            automatically has as many independent copies as you have active team members. One laptop dies?
+            The data is still on everyone else&apos;s machine. The redundancy grows with your team, for free,
+            with no configuration.
+          </p>
+          <div className="grid grid-cols-5 items-center gap-2 text-sm mt-2">
+            {['Alice\'s laptop', 'Bob\'s desktop', 'Carol\'s phone'].map((label, i) => (
+              <>
+                {i > 0 && (
+                  <div key={`conn-${i}`} className="flex flex-col items-center gap-1 text-muted-foreground">
+                    <div className="w-full h-px bg-[--color-border]" />
+                    <span className="font-mono text-[10px]">WebRTC</span>
+                  </div>
+                )}
+                <div key={label} className="rounded-lg border border-[--color-border] bg-[--color-muted]/50 px-4 py-3 text-center">
+                  <div className="font-medium text-sm">{label}</div>
+                  <div className="text-[10px] text-[--color-success] mt-0.5 font-mono">full copy ✓</div>
+                </div>
+              </>
+            ))}
+          </div>
+        </div>
+
+        {/* The one warning */}
+        <div className="rounded-xl border border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-950/20 p-6 flex gap-4">
+          <div className="shrink-0 mt-0.5">
+            <AlertTriangle className="h-5 w-5 text-amber-600" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-amber-900 dark:text-amber-400 mb-1.5">
+              The one scenario that causes permanent data loss
+            </h3>
+            <p className="text-sm text-amber-800 dark:text-amber-500 mb-3">
+              If <strong>every</strong> team member clears their browser storage (or uninstalls their
+              browser) before anyone has made an export, the data is gone — there is no server copy to
+              restore from. This is the trade-off of true zero-server storage.
+            </p>
+            <p className="text-sm text-amber-800 dark:text-amber-500">
+              <strong>Guard against it:</strong> use the one-click <span className="font-mono text-xs border border-amber-300 dark:border-amber-800 rounded px-1 py-0.5">Export all</span> button
+              (available in every module&apos;s toolbar) to download a full JSON or CSV backup, and keep it
+              somewhere safe. Even a monthly export on one person&apos;s device is enough insurance.
+            </p>
           </div>
         </div>
       </section>
