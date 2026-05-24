@@ -16,7 +16,7 @@ env:
     value: https://userelm.com
 
   - variable: NEXT_PUBLIC_SIGNALING_URL
-    value: wss://REPLACE_WITH_SIGNALING_BACKEND_URL
+    value: wss://userelm--userelm-381a3.europe-west4.hosted.app
 
   - variable: TURNSTILE_SECRET_KEY
     secret: TURNSTILE_SECRET_KEY
