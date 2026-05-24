@@ -74,7 +74,7 @@ export default function DealsPage() {
   return (
     <>
       <TopBar title="Pipeline" />
-      <div className="flex-1 p-6 overflow-auto">
+      <div className="flex-1 p-4 sm:p-6 overflow-auto">
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-muted-foreground">{deals.length} total deal{deals.length !== 1 ? 's' : ''}</p>
           <div className="flex items-center gap-2">
@@ -90,7 +90,7 @@ export default function DealsPage() {
                 ...input,
               })}
             />
-            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /> New deal</Button>
+            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /><span className="hidden sm:inline"> New deal</span></Button>
           </div>
         </div>
 

@@ -61,14 +61,14 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ roomId
   return (
     <>
       <TopBar title={invoice.number} />
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
+      <div className="flex-1 p-4 sm:p-6 space-y-6 overflow-auto">
         <Link href={`/r/${roomId}/finance/invoices`} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> Back to invoices
         </Link>
 
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
           <div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <h1 className="text-2xl font-bold font-mono">{invoice.number}</h1>
               <InvoiceStatusBadge status={invoice.status} />
             </div>
@@ -102,11 +102,12 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ roomId
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-6">
-          <Card className="col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Card className="lg:col-span-2">
             <CardHeader><CardTitle>Line items</CardTitle></CardHeader>
             <CardContent>
-              <table className="w-full text-sm">
+              <div className="overflow-x-auto">
+              <table className="w-full text-sm min-w-[400px]">
                 <thead className="text-xs uppercase tracking-wide text-muted-foreground">
                   <tr>
                     <th className="text-left py-2 font-medium">Description</th>
@@ -130,6 +131,7 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ roomId
                   ))}
                 </tbody>
               </table>
+              </div>
 
               <div className="mt-4 ml-auto max-w-xs text-sm space-y-1">
                 <div className="flex justify-between">

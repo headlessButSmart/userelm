@@ -77,12 +77,12 @@ export default function ContactDetailPage({ params }: { params: Promise<{ roomId
   return (
     <>
       <TopBar title={name} />
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
+      <div className="flex-1 p-4 sm:p-6 space-y-6 overflow-auto">
         <Link href={`/r/${roomId}/crm/contacts`} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> Back to contacts
         </Link>
 
-        <div className="flex items-start gap-4">
+        <div className="flex flex-col sm:flex-row items-start gap-4">
           <Avatar name={name} size="lg" />
           <div className="flex-1">
             <h1 className="text-2xl font-bold">{name}</h1>
@@ -119,8 +119,8 @@ export default function ContactDetailPage({ params }: { params: Promise<{ roomId
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-6">
-          <Card className="col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Card className="lg:col-span-2">
             <CardHeader><CardTitle>Details</CardTitle></CardHeader>
             <CardContent>
               {editing ? (

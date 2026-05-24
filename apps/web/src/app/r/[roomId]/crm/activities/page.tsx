@@ -69,7 +69,7 @@ export default function ActivitiesPage() {
   return (
     <>
       <TopBar title="Activities" />
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
+      <div className="flex-1 p-4 sm:p-6 space-y-4 overflow-auto">
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">{activities.length} logged activit{activities.length === 1 ? 'y' : 'ies'}</p>
           <div className="flex items-center gap-2">
@@ -84,7 +84,7 @@ export default function ActivitiesPage() {
                 ...input,
               })}
             />
-            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /> Log activity</Button>
+            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /><span className="hidden sm:inline"> Log activity</span></Button>
           </div>
         </div>
 

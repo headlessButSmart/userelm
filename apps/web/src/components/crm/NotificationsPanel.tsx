@@ -30,7 +30,7 @@ export function NotificationsPanel({ notifications, onClose }: Props) {
   return (
     <div
       ref={ref}
-      className="absolute left-full bottom-0 ml-2 w-80 z-50 rounded-xl border border-border bg-white shadow-xl overflow-hidden"
+      className="absolute left-0 bottom-full mb-2 w-64 md:left-full md:bottom-0 md:mb-0 md:ml-2 md:w-80 z-50 rounded-xl border border-border bg-white shadow-xl overflow-hidden"
     >
       <div className="px-4 py-3 border-b border-border flex items-center justify-between">
         <span className="text-sm font-semibold text-foreground">Notifications</span>

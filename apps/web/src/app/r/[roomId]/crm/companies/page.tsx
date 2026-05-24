@@ -59,9 +59,9 @@ export default function CompaniesPage() {
   return (
     <>
       <TopBar title="Companies" />
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
-        <div className="flex items-center justify-between gap-4">
-          <div className="relative flex-1 max-w-sm">
+      <div className="flex-1 p-4 sm:p-6 space-y-4 overflow-auto">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="relative flex-1 max-w-sm min-w-[180px]">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search companies…" className="pl-8" />
           </div>
@@ -78,7 +78,7 @@ export default function CompaniesPage() {
                 ...input,
               })}
             />
-            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /> Add company</Button>
+            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /><span className="hidden sm:inline"> Add company</span></Button>
           </div>
         </div>
 
@@ -130,8 +130,8 @@ export default function CompaniesPage() {
             })}
           </div>
         ) : (
-          <div className="rounded-lg border border-[--color-border] overflow-hidden bg-card">
-            <table className="w-full text-sm">
+          <div className="rounded-lg border border-[--color-border] overflow-hidden overflow-x-auto bg-card">
+            <table className="w-full text-sm min-w-[560px]">
               <thead className="bg-[--color-muted]/50 text-muted-foreground">
                 <tr>
                   <th className="px-4 py-2.5 text-left font-medium">Name</th>

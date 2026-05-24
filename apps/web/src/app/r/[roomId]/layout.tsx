@@ -1,4 +1,5 @@
 import { RoomProvider } from '@/contexts/RoomContext'
+import { MobileSidebarProvider } from '@/contexts/MobileSidebar'
 import { Sidebar } from '@/components/crm/Sidebar'
 import { ChatLauncher } from '@/components/chat/ChatLauncher'
 
@@ -27,11 +28,13 @@ export default async function RoomLayout({
 
   return (
     <RoomProvider roomId={roomId} workspaceName={workspaceName}>
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">{children}</div>
-      </div>
-      <ChatLauncher />
+      <MobileSidebarProvider>
+        <div className="flex min-h-screen">
+          <Sidebar />
+          <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">{children}</div>
+        </div>
+        <ChatLauncher />
+      </MobileSidebarProvider>
     </RoomProvider>
   )
 }

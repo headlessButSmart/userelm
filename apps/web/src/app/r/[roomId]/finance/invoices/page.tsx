@@ -69,8 +69,8 @@ export default function InvoicesPage() {
   return (
     <>
       <TopBar title="Invoices" />
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
-        <div className="flex items-center justify-between gap-4">
+      <div className="flex-1 p-4 sm:p-6 space-y-4 overflow-auto">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Label className="text-sm text-muted-foreground">Status</Label>
             <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as InvoiceStatus | '__all__')}>
@@ -94,7 +94,7 @@ export default function InvoicesPage() {
                 ...input,
               })}
             />
-            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /> New invoice</Button>
+            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /><span className="hidden sm:inline"> New invoice</span></Button>
           </div>
         </div>
 
@@ -106,8 +106,8 @@ export default function InvoicesPage() {
             action={<Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /> New invoice</Button>}
           />
         ) : view === 'table' ? (
-          <div className="rounded-lg border border-[--color-border] bg-card overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="rounded-lg border border-[--color-border] bg-card overflow-hidden overflow-x-auto">
+            <table className="w-full text-sm min-w-[580px]">
               <thead className="bg-[--color-muted]/40 text-xs uppercase tracking-wide text-muted-foreground">
                 <tr>
                   <th className="text-left px-4 py-2 font-medium">Number</th>

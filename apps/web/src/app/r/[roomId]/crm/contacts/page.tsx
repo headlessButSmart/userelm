@@ -78,9 +78,9 @@ export default function ContactsPage() {
   return (
     <>
       <TopBar title="Contacts" />
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 flex-1">
+      <div className="flex-1 p-4 sm:p-6 space-y-4 overflow-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-3 flex-1">
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search contacts…" className="pl-8" />
@@ -107,7 +107,7 @@ export default function ContactsPage() {
                 ...input,
               })}
             />
-            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /> Add contact</Button>
+            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /><span className="hidden sm:inline"> Add contact</span></Button>
           </div>
         </div>
 
@@ -119,8 +119,8 @@ export default function ContactsPage() {
             action={<Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /> Add contact</Button>}
           />
         ) : view === 'table' ? (
-          <div className="rounded-lg border border-[--color-border] overflow-hidden bg-card">
-            <table className="w-full text-sm">
+          <div className="rounded-lg border border-[--color-border] overflow-hidden overflow-x-auto bg-card">
+            <table className="w-full text-sm min-w-[640px]">
               <thead className="bg-[--color-muted]/50 text-muted-foreground">
                 <tr>
                   <th className="px-4 py-2.5 text-left font-medium">Name</th>

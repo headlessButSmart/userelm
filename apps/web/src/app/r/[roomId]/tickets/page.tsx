@@ -104,10 +104,10 @@ export default function TicketsPage() {
   return (
     <>
       <TopBar title="Tickets" />
-      <div className="flex-1 p-6 overflow-auto space-y-5">
+      <div className="flex-1 p-4 sm:p-6 overflow-auto space-y-5">
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {(TICKET_STATUSES).map((s) => (
             <button
               key={s}
@@ -124,7 +124,7 @@ export default function TicketsPage() {
         </div>
 
         {/* Toolbar */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <div className="relative flex-1 max-w-xs">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
             <Input
@@ -152,7 +152,7 @@ export default function TicketsPage() {
           </Select>
           <ViewToggle value={view} onChange={setView} />
           <Button onClick={() => setCreating(true)}>
-            <Plus className="h-4 w-4" /> New ticket
+            <Plus className="h-4 w-4" /><span className="hidden sm:inline"> New ticket</span>
           </Button>
         </div>
 
@@ -175,8 +175,8 @@ export default function TicketsPage() {
             }
           />
         ) : view === 'table' ? (
-          <div className="rounded-lg border overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="rounded-lg border overflow-hidden overflow-x-auto">
+            <table className="w-full text-sm min-w-[640px]">
               <thead>
                 <tr className="bg-muted/50 border-b">
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground w-16">#</th>

@@ -97,7 +97,7 @@ export default function EmployeeDetailPage({ params }: { params: Promise<{ roomI
   return (
     <>
       <TopBar title={name} />
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
+      <div className="flex-1 p-4 sm:p-6 space-y-6 overflow-auto">
         <Link href={`/r/${roomId}/hr/team`} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> Back to team
         </Link>

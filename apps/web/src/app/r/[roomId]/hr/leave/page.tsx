@@ -96,8 +96,8 @@ export default function LeavePage() {
   return (
     <>
       <TopBar title="Leave requests" />
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
-        <div className="flex items-center justify-between gap-4">
+      <div className="flex-1 p-4 sm:p-6 space-y-4 overflow-auto">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="inline-flex items-center gap-1 rounded-lg border border-[--color-border] bg-card p-1">
             {tabs.map((t) => (
               <button
@@ -130,7 +130,7 @@ export default function LeavePage() {
                 })
               }}
             />
-            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /> New leave request</Button>
+            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /><span className="hidden sm:inline"> New leave request</span></Button>
           </div>
         </div>
 
@@ -146,8 +146,8 @@ export default function LeavePage() {
             No {tab} requests.
           </div>
         ) : (
-          <div className="rounded-lg border border-[--color-border] overflow-hidden bg-card">
-            <table className="w-full text-sm">
+          <div className="rounded-lg border border-[--color-border] overflow-hidden overflow-x-auto bg-card">
+            <table className="w-full text-sm min-w-[560px]">
               <thead className="bg-[--color-muted]/50 text-muted-foreground">
                 <tr>
                   <th className="px-4 py-2.5 text-left font-medium">Employee</th>
@@ -190,10 +190,10 @@ export default function LeavePage() {
                           {l.status === 'pending' ? (
                             <>
                               <Button size="sm" variant="outline" onClick={() => handleDecide(l.id, 'approved')} className="text-green-700">
-                                <Check className="h-3.5 w-3.5" /> Approve
+                                <Check className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Approve</span>
                               </Button>
                               <Button size="sm" variant="outline" onClick={() => handleDecide(l.id, 'rejected')} className="text-red-700">
-                                <X className="h-3.5 w-3.5" /> Reject
+                                <X className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Reject</span>
                               </Button>
                             </>
                           ) : (

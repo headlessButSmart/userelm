@@ -147,7 +147,7 @@ export default function TicketDetailPage() {
   return (
     <>
       <TopBar title={`#${ticket.number} ${ticket.title}`} />
-      <div className="flex-1 overflow-auto p-6">
+      <div className="flex-1 overflow-auto p-4 sm:p-6">
 
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-5">
@@ -161,7 +161,7 @@ export default function TicketDetailPage() {
           <span className="text-foreground font-medium">#{ticket.number}</span>
         </div>
 
-        <div className="flex gap-6 items-start">
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Main column */}
           <div className="flex-1 min-w-0 space-y-5">
 
@@ -285,7 +285,7 @@ export default function TicketDetailPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="w-64 flex-shrink-0 space-y-4">
+          <div className="w-full lg:w-64 lg:flex-shrink-0 space-y-4">
             <div className="rounded-lg border bg-card p-4 space-y-4 text-sm">
               <div>
                 <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">

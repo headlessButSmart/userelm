@@ -77,7 +77,7 @@ export default function DashboardPage() {
   return (
     <>
       <TopBar title="Dashboard" />
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
+      <div className="flex-1 p-4 sm:p-6 space-y-6 overflow-auto">
 
         {/* CRM stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -104,7 +104,7 @@ export default function DashboardPage() {
               </Button>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-6 gap-2">
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                 {DEAL_STAGES.map((stage) => (
                   <div key={stage} className="text-center">
                     <div className="text-2xl font-bold">{stageCounts[stage]}</div>

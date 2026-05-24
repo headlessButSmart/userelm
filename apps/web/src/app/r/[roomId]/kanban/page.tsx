@@ -59,7 +59,7 @@ export default function KanbanBoardsPage() {
   return (
     <>
       <TopBar title="Kanban" />
-      <div className="flex-1 p-6 overflow-auto">
+      <div className="flex-1 p-4 sm:p-6 overflow-auto">
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-muted-foreground">
             {boards.length} board{boards.length !== 1 ? 's' : ''}
@@ -76,7 +76,7 @@ export default function KanbanBoardsPage() {
               })}
             />
             <Button onClick={() => setShowNew(true)}>
-              <Plus className="h-4 w-4" /> New board
+              <Plus className="h-4 w-4" /><span className="hidden sm:inline"> New board</span>
             </Button>
           </div>
         </div>

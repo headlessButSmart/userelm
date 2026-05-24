@@ -243,8 +243,8 @@ export default function ExpensesPage() {
   return (
     <>
       <TopBar title="Expenses" />
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
-        <div className="flex items-center justify-between gap-4">
+      <div className="flex-1 p-4 sm:p-6 space-y-4 overflow-auto">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Label className="text-sm text-muted-foreground">Status</Label>
             <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as ExpenseStatus | '__all__')}>
@@ -268,7 +268,7 @@ export default function ExpensesPage() {
                 ...input,
               })}
             />
-            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /> New expense</Button>
+            <Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /><span className="hidden sm:inline"> New expense</span></Button>
           </div>
         </div>
 
@@ -280,8 +280,8 @@ export default function ExpensesPage() {
             action={<Button onClick={() => setShowNew(true)}><Plus className="h-4 w-4" /> New expense</Button>}
           />
         ) : view === 'table' ? (
-          <div className="rounded-lg border border-[--color-border] bg-card overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="rounded-lg border border-[--color-border] bg-card overflow-hidden overflow-x-auto">
+            <table className="w-full text-sm min-w-[520px]">
               <thead className="bg-[--color-muted]/40 text-xs uppercase tracking-wide text-muted-foreground">
                 <tr>
                   <th className="text-left px-4 py-2 font-medium">Vendor</th>

@@ -1,5 +1,7 @@
 'use client'
+import { Menu } from 'lucide-react'
 import { useRoom, type ConnectionState } from '@/contexts/RoomContext'
+import { useMobileSidebar } from '@/contexts/MobileSidebar'
 import { Avatar } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 
@@ -12,7 +14,7 @@ function StatusDot({ state }: { state: ConnectionState }) {
   }[state]
   return (
     <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-      <span className={cn('h-2 w-2 rounded-full', map.c)} />
+      <span className={cn('h-2 w-2 rounded-full shrink-0', map.c)} />
       {map.l || null}
     </span>
   )
@@ -20,6 +22,8 @@ function StatusDot({ state }: { state: ConnectionState }) {
 
 export function TopBar({ title }: { title: string }) {
   const { connectionState, peers, identity } = useRoom()
+  const { toggle: toggleSidebar } = useMobileSidebar()
+
   const all = [
     { userId: identity.userId, displayName: identity.displayName, isSelf: true },
     ...peers.map((p) => ({ ...p, isSelf: false })),
@@ -34,10 +38,17 @@ export function TopBar({ title }: { title: string }) {
       : null
 
   return (
-    <header className="flex items-center gap-4 border-b border-[--color-border] px-6 py-3 bg-background sticky top-0 z-10">
-      <h1 className="text-lg font-semibold flex-1">{title}</h1>
+    <header className="flex items-center gap-3 border-b border-[--color-border] px-4 py-3 bg-background sticky top-0 z-10">
+      <button
+        onClick={toggleSidebar}
+        className="md:hidden p-1.5 -ml-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+        aria-label="Toggle menu"
+      >
+        <Menu className="h-5 w-5" />
+      </button>
+      <h1 className="text-lg font-semibold flex-1 truncate">{title}</h1>
       {connectionState !== 'local-only' && (
-        <div className="flex -space-x-1.5">
+        <div className="hidden sm:flex -space-x-1.5">
           {all.slice(0, 5).map((p) => (
             <Avatar key={p.userId} name={p.displayName} size="sm" className="border-2 border-background" />
           ))}
@@ -45,7 +56,7 @@ export function TopBar({ title }: { title: string }) {
       )}
       <div className="flex items-center gap-1.5">
         <StatusDot state={connectionState} />
-        {syncLabel && <span className="text-xs text-muted-foreground">{syncLabel}</span>}
+        {syncLabel && <span className="hidden sm:inline text-xs text-muted-foreground">{syncLabel}</span>}
       </div>
     </header>
   )

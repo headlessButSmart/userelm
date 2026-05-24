@@ -1,6 +1,6 @@
 # Userelm — Free Peer-to-Peer Team Workspace
 
-**[userelm.com](https://userelm.com)** · *user elm · user realm*
+**[userelm.com](https://userelm.com)** · *user elm · user realm* · [GitHub](https://github.com/headlessButSmart/userelm)
 
 A fully local-first, end-to-end encrypted workspace that runs entirely in the browser. No cloud lock-in, no per-seat fees, no data leaving your devices unless you choose to share it. **Free forever.**
 
@@ -17,6 +17,7 @@ Built with [Yjs](https://yjs.dev) (CRDTs) for conflict-free real-time collaborat
 | **HR** | Team directory, employee profiles, leave management |
 | **Boards** | Kanban boards with drag-and-drop cards, priorities, and assignees |
 | **Support** | Customer support ticketing with comments, internal notes, and assignment |
+| **Chat** | Real-time team chat floating panel, synced over the same WebRTC link |
 
 ---
 
@@ -25,6 +26,7 @@ Built with [Yjs](https://yjs.dev) (CRDTs) for conflict-free real-time collaborat
 ```
 apps/
   web/          Next.js 15 frontend (App Router) — deployed on Firebase App Hosting
+  signaling/    Self-hosted y-webrtc signaling server — deployed on Firebase App Hosting
 packages/
   platform/     Shared data layer — schemas, queries, mutations (Yjs)
   shared/       Shared utility types
@@ -35,8 +37,10 @@ packages/
 - All workspace data lives in a **Yjs document** — a CRDT-based data structure that merges concurrent edits automatically and without conflicts.
 - The document is persisted locally in **IndexedDB** via `y-indexeddb`, so the app works fully offline.
 - When online, changes sync directly peer-to-peer over **WebRTC** (via `y-webrtc`), encrypted with a shared room key derived from the invite URL.
-- WebRTC signaling is handled by the **public `wss://signaling.yjs.dev` server** — it relays handshakes only and never sees your encrypted data.
+- WebRTC signaling is handled by the **self-hosted signaling server** (`apps/signaling/`) deployed on Firebase App Hosting. It relays WebSocket handshakes only and never sees your encrypted data. If no custom signaling URL is configured, the client falls back to the public `wss://signaling.yjs.dev`, `wss://y-webrtc-eu.fly.dev`, and `wss://y-webrtc-us.fly.dev` servers.
+- WebRTC connections use **TURN-only relay** (`iceTransportPolicy: relay`) via a Metered TURN server, ensuring connectivity behind any NAT or firewall.
 - Room metadata (name, invite secret hash, owner email) is stored in **Firebase Firestore** and only accessed by the Next.js API routes.
+- Room creation is protected by **Cloudflare Turnstile** to prevent abuse.
 
 ### Local-first guarantees
 
@@ -76,13 +80,20 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY----
 # JWT signing secret (any random string, min 32 chars)
 JWT_SECRET=your-random-secret-here
 
-# Optional: TURN server credentials for NAT traversal
-# TURN_URLS=turn:your-turn-server.com:3478
-# TURN_USERNAME=username
-# TURN_CREDENTIAL=password
+# Self-hosted signaling server WebSocket URL (omit to use public fallback servers)
+NEXT_PUBLIC_SIGNALING_URL=wss://your-signaling-server.run.app
+
+# Cloudflare Turnstile (bot protection on room creation)
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=your-site-key
+TURNSTILE_SECRET_KEY=your-secret-key
+
+# TURN server credentials for NAT traversal (relay-only mode)
+TURN_URL=turns:global.relay.metered.ca:443?transport=tcp
+TURN_USERNAME=your-username
+TURN_PASSWORD=your-password
 ```
 
-> **Note:** In development, Firestore rate limiting is bypassed so you can create rooms freely without hitting limits.
+> **Note:** In development, Firestore rate limiting is bypassed so you can create rooms freely without hitting limits. Omit `NEXT_PUBLIC_SIGNALING_URL` to fall back to public signaling servers.
 
 ### Development
 
@@ -90,33 +101,31 @@ JWT_SECRET=your-random-secret-here
 pnpm dev
 ```
 
-The app runs at `http://localhost:3000`. Signaling is handled automatically by `wss://signaling.yjs.dev`.
-
-### Create a workspace
-
-1. Open `http://localhost:3000`
-2. Click **Create workspace** — you'll get a shareable invite link with the room key in the URL fragment (never sent to any server)
-3. Share the link with teammates — they click it and join directly via WebRTC
+The app runs at `http://localhost:3000`.
 
 ---
 
 ## Deployment (Firebase App Hosting)
 
-This project is configured for [Firebase App Hosting](https://firebase.google.com/docs/app-hosting), which provides native Next.js SSR support.
+This project is configured for [Firebase App Hosting](https://firebase.google.com/docs/app-hosting), which provides native Next.js SSR support. The monorepo has two App Hosting backends — the Next.js web app and the signaling server.
 
 ### First-time setup
 
 1. Install the Firebase CLI: `npm install -g firebase-tools`
 2. Log in: `firebase login`
-3. Initialize App Hosting: `firebase apphosting:backends:create`
+3. Create the web backend: `firebase apphosting:backends:create` (target `apps/web`)
+4. Create the signaling backend: `firebase apphosting:backends:create` (target `apps/signaling`)
 
-### Set environment secrets
+### Set environment secrets (web backend)
 
 ```bash
 firebase apphosting:secrets:set FIREBASE_PROJECT_ID
 firebase apphosting:secrets:set FIREBASE_CLIENT_EMAIL
 firebase apphosting:secrets:set FIREBASE_PRIVATE_KEY
 firebase apphosting:secrets:set JWT_SECRET
+firebase apphosting:secrets:set TURNSTILE_SECRET_KEY
+firebase apphosting:secrets:set TURN_USERNAME
+firebase apphosting:secrets:set TURN_PASSWORD
 ```
 
 ### Deploy
@@ -125,7 +134,7 @@ firebase apphosting:secrets:set JWT_SECRET
 firebase apphosting:backends:deploy
 ```
 
-Firebase App Hosting auto-detects Next.js and handles SSR, API routes, and static assets without any additional configuration.
+Firebase App Hosting auto-detects Next.js and handles SSR, API routes, and static assets without any additional configuration. The signaling backend runs as a single-instance Node.js service (in-memory topic map — see `apps/signaling/apphosting.yaml`).
 
 ### Firestore setup
 
@@ -216,7 +225,9 @@ Adding a new module means implementing these four files and registering the modu
 | Frontend | Next.js 15, React 19, TypeScript |
 | Styling | Tailwind CSS v4, shadcn/ui |
 | Data sync | Yjs, y-webrtc, y-indexeddb |
-| Signaling | `wss://signaling.yjs.dev` (public Yjs server) |
+| Signaling | Self-hosted WebSocket server (`apps/signaling/`) on Firebase App Hosting |
+| TURN / relay | Metered TURN (`turns:global.relay.metered.ca`), relay-only mode |
+| Bot protection | Cloudflare Turnstile (room creation) |
 | Room metadata | Firebase Firestore (Admin SDK) |
 | Hosting | Firebase App Hosting |
 | Monorepo | pnpm workspaces |

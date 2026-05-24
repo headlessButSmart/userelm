@@ -95,7 +95,7 @@ export default function KanbanBoardPage() {
     return (
       <>
         <TopBar title="Kanban" />
-        <div className="flex-1 p-6 overflow-auto">
+        <div className="flex-1 p-4 sm:p-6 overflow-auto">
           <EmptyState
             icon={Trello}
             title="Board not found"
@@ -117,7 +117,7 @@ export default function KanbanBoardPage() {
     <>
       <TopBar title={board.name} />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="px-6 py-3 border-b border-[--color-border] flex items-center gap-3">
+        <div className="px-4 sm:px-6 py-3 border-b border-[--color-border] flex items-center gap-3 flex-wrap">
           <Link
             href={`/r/${roomId}/kanban`}
             className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
@@ -137,8 +137,8 @@ export default function KanbanBoardPage() {
           )}
         </div>
 
-        <div className="flex-1 overflow-x-auto overflow-y-hidden p-4">
-          <div className="flex gap-4 h-full items-start">
+        <div className="flex-1 overflow-y-auto md:overflow-x-auto md:overflow-y-hidden p-4">
+          <div className="flex flex-col gap-4 md:flex-row md:h-full md:items-start">
             {columns.map((col) => {
               const list = cardsByColumn.get(col.id) ?? []
               return (
@@ -172,7 +172,7 @@ export default function KanbanBoardPage() {
               )
             })}
 
-            <div className="flex-shrink-0 w-72">
+            <div className="w-full md:flex-shrink-0 md:w-72">
               {addingColumn ? (
                 <form
                   onSubmit={(e) => {
@@ -320,7 +320,7 @@ function ColumnView({
   }
 
   return (
-    <div className="flex-shrink-0 w-72 flex flex-col max-h-full">
+    <div className="w-full md:flex-shrink-0 md:w-72 flex flex-col md:max-h-full">
       <div className="flex items-center justify-between px-2 py-2">
         <div className="flex items-center gap-2 flex-1 min-w-0">
           {editing ? (

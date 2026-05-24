@@ -570,7 +570,7 @@ export default function HomePage() {
           <div className="flex gap-6">
             <a href="#modules" className="hover:text-foreground">Modules</a>
             <a href="#trust"   className="hover:text-foreground">Trust</a>
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-foreground inline-flex items-center gap-1">
+            <a href="https://github.com/headlessButSmart/userelm" target="_blank" rel="noreferrer" className="hover:text-foreground inline-flex items-center gap-1">
               <Github className="h-4 w-4" /> GitHub
             </a>
           </div>
